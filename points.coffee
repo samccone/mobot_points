@@ -1,12 +1,23 @@
-# Description:
-#   counts your points DUH
-#
-# Commands:
-#
-#   @ben +10
-#   +10 @ben
-#   -10 @ben
-#   @ben -100
+###
+  INSTALL
+
+    add to the package.json
+
+    "parse-api": "latest"
+
+  Description:
+
+    counts your points DUH
+
+  COMMANDS
+
+    @ben +10
+    +10 @ben
+    -10 @ben
+    @ben -100
+
+###
+
 
 module.exports = (robot) ->
   points = {}
