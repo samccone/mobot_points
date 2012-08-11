@@ -9,16 +9,17 @@
 #   @ben -100
 
 module.exports = (robot) ->
+  points = {}
+
   robot.hear /([+-]\d+)\s*\@(\w+)/, (msg) ->
-    msg.send msg.match[2] + ' just got ' + msg.match[1] + ' points!'
+    addPoints msg.match[2], msg.match[1]
 
   robot.hear /\@(\w+)\s*([+-]\d+)/, (msg) ->
-    msg.send msg.match[1] + ' just got ' + msg.match[2] + ' points!'
+    addPoints msg.match[1], msg.match[2]
 
-  ###
-  robot.respond /pug me/i, (msg) ->
-    msg.http("http://pugme.herokuapp.com/random")
-      .get() (err, res, body) ->
-        msg.send JSON.parse(body).pug
+  robot.respond /points/i, (msg) ->
+    msg.send JSON.stringify points, null, 4
 
-  ###
+  addPoints = (name, toAdd) ->
+    toAdd = parseInt toAdd, 10
+    points[name] = if points[name] then points[name] + toAdd else toAdd
