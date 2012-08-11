@@ -11,15 +11,17 @@
 module.exports = (robot) ->
   points = {}
 
-  robot.hear /([+-]\d+)\s*\@(\w+)/, (msg) ->
-    addPoints msg.match[2], msg.match[1]
+  robot.hear /([+-]\s*\d+)\s*\@(\w+)/, (msg) ->
+    addPoints msg.match[2], parsePoints msg.match[1]
 
-  robot.hear /\@(\w+)\s*([+-]\d+)/, (msg) ->
-    addPoints msg.match[1], msg.match[2]
+  robot.hear /\@(\w+)\s*([+-]\s*\d+)/, (msg) ->
+    addPoints msg.match[1], parsePoints msg.match[2]
 
   robot.respond /points/i, (msg) ->
     msg.send JSON.stringify points, null, 4
 
+  parsePoints = (points) ->
+    parseInt points.replace(/\s+/, ''), 10
+
   addPoints = (name, toAdd) ->
-    toAdd = parseInt toAdd, 10
     points[name] = if points[name] then points[name] + toAdd else toAdd
