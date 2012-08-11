@@ -16,8 +16,11 @@
     -10 @ben
     @ben -100
 
-###
+  NOTE:
 
+    Any number of spaces are acceptable between the sign and the points and the points and the @name
+
+###
 
 module.exports = (robot) ->
   points = {}
