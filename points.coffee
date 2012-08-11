@@ -18,11 +18,15 @@
 
   NOTE:
 
-    Any number of spaces are acceptable between the sign and the points and the points and the @name
+    Any number of spaces are acceptable between
+    the sign and the points and the points and the @name
 
 ###
 
 module.exports = (robot) ->
+  Parse = require('parse-api').Parse
+  APP_ID = "here"
+  MASTER_KEY = "here"
   points = {}
 
   robot.hear /([+-]\s*\d+)\s*\@(\w+)/, (msg) ->
