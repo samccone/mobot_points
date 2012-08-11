@@ -9,8 +9,12 @@
 #   @ben -100
 
 module.exports = (robot) ->
-  robot.hear "", (msg) ->
-    msg.send ""
+  robot.hear /([+-]\d+)\s*\@(\w+)/, (msg) ->
+    msg.send msg.match[2] + ' just got ' + msg.match[1] + ' points!'
+
+  robot.hear /\@(\w+)\s*([+-]\d+)/, (msg) ->
+    msg.send msg.match[1] + ' just got ' + msg.match[2] + ' points!'
+
   ###
   robot.respond /pug me/i, (msg) ->
     msg.http("http://pugme.herokuapp.com/random")
