@@ -28,7 +28,10 @@ module.exports = (robot) ->
   robot.hear /\@(\w+)\s*([+-]\s*\d+)/, (msg) ->
     addPoints msg.match[1], parsePoints msg.match[2]
 
-  robot.respond /points/i, (msg) ->
+  robot.respond /points for \@(\w*)/, (msg) ->
+    msg.send points[match[0]]
+
+  robot.respond /^points$/i, (msg) ->
     msg.send JSON.stringify points, null, 4
 
   parsePoints = (points) ->
