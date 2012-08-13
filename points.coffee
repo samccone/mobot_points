@@ -31,6 +31,13 @@ module.exports = (robot) ->
   robot.respond /points/i, (msg) ->
     msg.send JSON.stringify points, null, 4
 
+  robots.respond /who is winning/, (msg) ->
+    a = []
+    for(x in points) { a.push([x, a[x]]) }
+    a.sort(function(x,y) { return y[1] - x[1] })
+    winner = a.shift()
+    msg.send "@" + winner[0] + " is winning with " + winner[1] + "points"
+
   parsePoints = (points) ->
     parseInt points.replace(/\s+/, ''), 10
 
