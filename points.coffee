@@ -1,10 +1,6 @@
 ###
   INSTALL
 
-    add to the package.json
-
-    "parse-api": "latest"
-
   Description:
 
     counts your points DUH
@@ -24,9 +20,6 @@
 ###
 
 module.exports = (robot) ->
-  Parse = require('parse-api').Parse
-  APP_ID = process.env.PARSE_APP_ID
-  MASTER_KEY = process.env.PARSE_MASTER_KEY
   points = {}
 
   robot.hear /([+-]\s*\d+)\s*\@(\w+)/, (msg) ->
