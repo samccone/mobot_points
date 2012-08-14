@@ -35,7 +35,10 @@ module.exports = (robot) ->
     msg.send JSON.stringify points, null, 4
 
   parsePoints = (points) ->
-    parseInt points.replace(/\s+/, ''), 10
+    number = parseInt points.replace(/\s+/, ''), 10
+    if number > 1000 || ( number < 0 && number < -1000 )
+      number = 0
+    number
 
   addPoints = (name, toAdd) ->
     points[name] = if points[name] then points[name] + toAdd else toAdd
