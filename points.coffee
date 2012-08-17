@@ -20,6 +20,16 @@
 ###
 
 module.exports = (robot) ->
+  request = require 'request'
+  ce      = require 'cloneextend'
+  qs      = require 'qs'
+
+  http_options =
+    uri: 'http://mobotpoints.herokuapp.com/users/update'
+    method: 'PUT'
+    headers:
+      'content-type': 'application/x-www-form-urlencoded'
+
   points = {}
 
   robot.hear /([+-]\s*\d+)\s*\@(\w+)/, (msg) ->
@@ -31,14 +41,18 @@ module.exports = (robot) ->
   robot.respond /points for \@(\w*)/, (msg) ->
     msg.send points[match[0]]
 
-  robot.respond /^points$/i, (msg) ->
+  robot.respond /points$/i, (msg) ->
     msg.send JSON.stringify points, null, 4
 
   parsePoints = (points) ->
-    number = parseInt points.replace(/\s+/, ''), 10
-    if number > 1000 || ( number < 0 && number < -1000 )
-      number = 0
+    number = parseInt(points.replace(/\s+/, ''), 10)
+    number = 0 if Math.abs(number) > 1000
     number
 
   addPoints = (name, toAdd) ->
     points[name] = if points[name] then points[name] + toAdd else toAdd
+    pushPoints(name, toAdd)
+
+  pushPoints = (name, points) ->
+    data = qs.stringify({name: name, points: points})
+    request.put ce.cloneextend(http_options, {body: data})
