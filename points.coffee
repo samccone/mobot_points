@@ -23,14 +23,22 @@ module.exports = (robot) ->
   request = require 'request'
   ce      = require 'cloneextend'
   qs      = require 'qs'
+  _       = require 'lodash'
 
+  server_url = 'http://mobotpoints.herokuapp.com'
   http_options =
-    uri: 'http://mobotpoints.herokuapp.com/users/update'
+    uri: server_url + '/users/update'
     method: 'PUT'
     headers:
       'content-type': 'application/x-www-form-urlencoded'
 
   points = {}
+
+  (getPoints = ->
+    request.get server_url + '/users/points', (error, response, body) ->
+      _.each JSON.parse(body), (user_points) ->
+        points[user_points['name']] = user_points['points']
+  )()
 
   robot.hear /([+-]\s*\d+)\s*\@(\w+)/, (msg) ->
     addPoints msg.match[2], parsePoints msg.match[1]
@@ -56,3 +64,4 @@ module.exports = (robot) ->
   pushPoints = (name, points) ->
     data = qs.stringify({name: name, points: points})
     request.put ce.cloneextend(http_options, {body: data})
+
